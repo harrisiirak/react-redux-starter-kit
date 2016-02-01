@@ -37,6 +37,8 @@ const config = {
     colors : true
   },
   compiler_vendor : [
+    'bootstrap-loader',
+    'react-bootstrap',
     'history',
     'react',
     'react-redux',
