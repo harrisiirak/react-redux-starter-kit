@@ -45,6 +45,7 @@ const config = {
     'react-router',
     'redux',
     'redux-actions',
+    'redux-form',
     'react-router-redux'
   ],
 
