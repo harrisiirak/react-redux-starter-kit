@@ -46,6 +46,7 @@ const config = {
     'redux',
     'redux-logger',
     'redux-actions',
+    'redux-promise',
     'redux-form',
     'react-router-redux'
   ],
