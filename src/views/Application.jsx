@@ -16,7 +16,7 @@ export class Application extends React.Component {
 
   render () {
     return (
-      <div className='container col-md-12'>
+      <div id="app">
         <Navigation />
         <Content />
       </div>

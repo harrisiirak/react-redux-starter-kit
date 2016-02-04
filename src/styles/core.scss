@@ -2,8 +2,6 @@
   @import 'base';
   @import 'vendor/normalize';
 
-  // Some best-practice CSS that's useful for most apps
-  // Just remove them if they're not what you want
   html {
     box-sizing: border-box;
   }
@@ -13,11 +11,16 @@
     margin: 0;
     padding: 0;
     height: 100%;
+    padding-top: 50px;
   }
 
   *,
   *:before,
   *:after {
     box-sizing: inherit;
+  }
+
+  .view-container {
+    height: 100%;
   }
 }
