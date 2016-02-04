@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-export class NotFoundView extends React.Component {
+export default class NotFoundView extends React.Component {
   render () {
     return (
       <div className='container text-center'>
@@ -13,4 +13,3 @@ export class NotFoundView extends React.Component {
   }
 }
 
-export default NotFoundView;

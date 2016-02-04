@@ -2,9 +2,9 @@ import React from 'react';
 import { Route, IndexRoute, Redirect } from 'react-router';
 
 import CoreLayout from 'layouts/CoreLayout';
-import ApplicationView from 'views/ApplicationView';
-import LoginView from 'views/LoginView';
-import NotFoundView from 'views/NotFoundView/NotFoundView';
+import Application from 'views/Application';
+import Login from 'views/Login';
+import NotFound from 'views/NotFound';
 
 export default function configureRoutes (store) {
   var requireAuth = (nextState, transition, cb) => {
@@ -21,9 +21,9 @@ export default function configureRoutes (store) {
   return (
     <Route path='/' component={CoreLayout}>
       <IndexRoute onEnter={requireAuth}/>
-      <Route path='/login' component={LoginView} />
-      <Route path='/app' component={ApplicationView} />
-      <Route path='/404' component={NotFoundView} />
+      <Route path='/login' component={Login} />
+      <Route path='/app' component={Application} />
+      <Route path='/404' component={NotFound} />
       <Redirect from='*' to='/404' />
     </Route>
   );
