@@ -1,11 +1,17 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 
-export class Navigation extends React.Component {
+class Navigation extends React.Component {
   static propTypes = {
+    onLogout: PropTypes.func
   };
 
   constructor (props) {
     super(props);
+  }
+
+  logout () {
+    this.props.onLogout();
   }
 
   render () {
@@ -13,7 +19,7 @@ export class Navigation extends React.Component {
       <nav className='navbar navbar-inverse navbar-fixed-top'>
         <div className='container-fluid'>
           <div className='navbar-header'>
-            <button type="button" className='navbar-toggle collapsed' data-toggle='collapse' data-target='#navbar' aria-expanded='false' aria-controls='navbar'>
+            <button type='button' className='navbar-toggle collapsed' data-toggle='collapse' data-target='#navbar' aria-expanded='false' aria-controls='navbar'>
               <span className='sr-only'>Toggle navigation</span>
               <span className='icon-bar'></span>
               <span className='icon-bar'></span>
@@ -21,11 +27,11 @@ export class Navigation extends React.Component {
             </button>
             <a className='navbar-brand' href='#'>Project name</a>
           </div>
-          <div id="navbar" className='navbar-collapse collapse'>
+          <div id='navbar' className='navbar-collapse collapse'>
             <ul className='nav navbar-nav navbar-right'>
-              <li><a href='#'>Dashboard</a></li>
-              <li><a href='#'>Settings</a></li>
-              <li><a href='#'>Logout</a></li>
+              <li><Link to='/app'>Dashboard</Link></li>
+              <li><Link to='/app/settings'>Settings</Link></li>
+              <li><a onClick={this.logout.bind(this)}>Logout</a></li>
             </ul>
           </div>
         </div>
@@ -33,3 +39,5 @@ export class Navigation extends React.Component {
     );
   }
 }
+
+export default Navigation;

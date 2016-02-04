@@ -6,7 +6,7 @@ import { createSession } from '../actions/session';
 
 const fields = [ 'username', 'password' ];
 
-export class LoginView extends React.Component {
+export class Login extends React.Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -82,6 +82,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default reduxForm({
   form: 'login',
   fields
-}, mapStateToProps, mapDispatchToProps)(LoginView);
-
-//export default connect(mapStateToProps, mapDispatchToProps)(LoginView);
+}, mapStateToProps, mapDispatchToProps)(Login);

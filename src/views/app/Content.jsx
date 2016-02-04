@@ -1,9 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 
-export class Content extends React.Component {
-  static propTypes = {
-  };
-
+export default class Content extends React.Component {
   constructor (props) {
     super(props);
   }

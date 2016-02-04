@@ -22,5 +22,6 @@ export function destroySession () {
     dispatch(requestLogout());
     localStorage.removeItem('token');
     dispatch(receiveLogout());
+    return Promise.resolve();
   };
 }
