@@ -16,9 +16,11 @@ export class Application extends React.Component {
 
   constructor (props) {
     super(props);
+    /*
     setTimeout(() => {
       this.props.dispatch(fetchAll());
     }, 10000);
+    */
   }
 
   onLogout () {
@@ -29,7 +31,7 @@ export class Application extends React.Component {
     return (
       <div id='app'>
         <Navigation onLogout={this.onLogout.bind(this)}/>
-        <Content />
+        <Content>{this.props.children}</Content>
       </div>
     );
   }
