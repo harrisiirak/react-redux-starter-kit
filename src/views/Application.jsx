@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { requireAuthentication } from '../components/AuthenticatedComponent';
 import { bindActionCreators } from 'redux';
-import { routeActions } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { destroySession } from '../actions/session';
+import { fetchAll } from '../actions/user';
 
 import Navigation from './app/Navigation';
 import Content from './app/Content';
@@ -16,13 +16,13 @@ export class Application extends React.Component {
 
   constructor (props) {
     super(props);
+    setTimeout(() => {
+      this.props.dispatch(fetchAll());
+    }, 10000);
   }
 
   onLogout () {
-    this.props.actions.destroySession()
-      .then(() => {
-        this.props.dispatch(routeActions.push('/login'));
-      });
+    this.props.actions.destroySession();
   }
 
   render () {

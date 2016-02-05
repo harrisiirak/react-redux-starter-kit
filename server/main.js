@@ -1,8 +1,11 @@
 import express from 'express';
+import bodyParser from 'body-parser';
+import jwtCheck from 'express-jwt';
 import webpack from 'webpack';
 import webpackConfig from '../build/webpack.config';
 import _debug from 'debug';
 import config from '../config';
+import jwt from 'jsonwebtoken';
 
 const debug = _debug('app:server');
 const paths = config.utils_paths;
@@ -38,5 +41,60 @@ if (config.env === 'development') {
   // server in production.
   app.use(convert(serve(paths.base(config.dir_dist))));
 }
+
+app.use(bodyParser.json());
+
+const secret = 'jsontokensecret';
+const users = [
+  {
+    id: 1,
+    username: 'admin',
+    password: 'password',
+    group: 'admin'
+  }
+];
+
+app.post('/sessions/create', (req, res) => {
+  if (!req.body.username || !req.body.password) {
+    res.status(400).json({
+      status: 'error',
+      data: 'Missing username or password'
+    });
+    return;
+  }
+
+  let user = users.filter((u) => u.username === req.body.username && u.password === req.body.password);
+  if (!user.length) {
+    res.status(400).json({
+      status: 'error',
+      data: 'Invalid user'
+    });
+    return;
+  }
+
+  user = users[0];
+  let token = jwt.sign({ id: user.id, username: user.username }, secret, { expiresIn: 60 });
+
+  res.status(200).json({
+    status: 'ok',
+    data: token
+  });
+});
+
+app.use('/api', jwtCheck({ secret }), (req, res, next) => {
+  console.log(req.user);
+});
+
+app.use((err, req, res, next) => {
+  if (err) {
+    res.status(err.status || err.code).json({
+      status: 'error',
+      data: err.message
+    });
+    return;
+  }
+
+  next();
+});
 
 export default app;

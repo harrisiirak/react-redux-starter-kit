@@ -1,3 +1,4 @@
+import fetch from 'isomorphic-fetch';
 import {
   SESSION_CREATE_REQUEST, SESSION_CREATE_SUCCESS, SESSION_CREATE_FAILURE, SESSION_DESTROY_SUCCESS
 } from '../../constants/session';
@@ -48,7 +49,7 @@ export function createSession (username, password) {
           dispatch(loginError(user.message));
           return Promise.reject(user);
         } else {
-          localStorage.setItem('token', user.id_token);
+          localStorage.setItem('token', user.data || user.token);
           dispatch(receiveLogin(user));
         }
       }).catch(() => {

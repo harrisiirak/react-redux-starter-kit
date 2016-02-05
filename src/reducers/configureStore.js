@@ -1,5 +1,7 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import { syncHistory } from 'react-router-redux';
+import { apiMiddleware } from 'redux-api-middleware';
+import { processSideEffects } from 'redux-action-side-effects';
 import thunk from 'redux-thunk';
 import promise from 'redux-promise';
 import createLogger from 'redux-logger';
@@ -11,12 +13,12 @@ export default function configureStore ({ initialState = {}, history }) {
   const logger = createLogger();
 
   // Compose final middleware and use devtools in debug environment
-  let middleware = applyMiddleware(thunk, promise, routerMiddleware, logger);
+  let middleware = applyMiddleware(thunk, promise, apiMiddleware, routerMiddleware, logger);
   if (__DEBUG__) {
     const devTools = window.devToolsExtension
       ? window.devToolsExtension()
       : require('containers/DevTools').default.instrument();
-    middleware = compose(middleware, devTools);
+    middleware = compose(middleware, processSideEffects, devTools);
   }
 
   // Create final store and subscribe router in debug env ie. for devtools

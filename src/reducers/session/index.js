@@ -8,8 +8,6 @@ const initialState = {
   message: ''
 };
 
-console.log(initialState, typeof localStorage.getItem('token'));
-
 function session (state = initialState, action) {
   switch (action.type) {
     case SESSION_CREATE_REQUEST:

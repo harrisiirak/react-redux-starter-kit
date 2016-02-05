@@ -1,4 +1,5 @@
 import * as constants from '../../constants/session';
+import { routeActions } from 'react-router-redux';
 
 function requestLogout () {
   return {
@@ -17,11 +18,12 @@ function receiveLogout () {
 }
 
 // Logs the user out
-export function destroySession () {
+// TODO: Should call session destroy endpoint
+export function destroySession (reason) {
   return dispatch => {
     dispatch(requestLogout());
     localStorage.removeItem('token');
     dispatch(receiveLogout());
-    return Promise.resolve();
+    dispatch(routeActions.push('/login?reason=' + (reason || 'user')));
   };
 }

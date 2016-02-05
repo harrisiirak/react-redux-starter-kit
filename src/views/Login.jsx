@@ -45,11 +45,21 @@ export class Login extends React.Component {
   }
 
   render () {
-    const { fields: { username, password }, error, handleSubmit, submitting } = this.props;
+    let { fields: { username, password }, error, handleSubmit, submitting } = this.props;
+
+    // Custom errors
+    if (this.props.location.query.reason) {
+      switch (this.props.location.query.reason) {
+        case 'invalid':
+          error = 'Invalid auth token. Please log in to refresh the token';
+          break;
+      }
+    }
+
     return (
       <div className='col-xs-12 col-md-6 col-md-offset-3'>
-        <h3>Log in to view protected content!</h3>
-        {error ? <div className='alert alert-info'>{error}</div> : ''}
+        <h3>Admin area</h3>
+        {error ? <div className='alert alert-warning'>{error}</div> : ''}
         <form onSubmit={handleSubmit(this.submit.bind(this))}>
           <div className='form-group'>
             <input type='text'

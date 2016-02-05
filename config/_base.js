@@ -49,7 +49,10 @@ const config = {
     'redux-actions',
     'redux-promise',
     'redux-form',
-    'react-router-redux'
+    'redux-api-middleware',
+    'redux-action-side-effects',
+    'react-router-redux',
+    'isomorphic-fetch'
   ],
 
   // ----------------------------------

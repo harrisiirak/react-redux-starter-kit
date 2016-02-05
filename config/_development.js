@@ -4,6 +4,6 @@
 export default (config) => ({
   compiler_public_path: `http://${config.server_host}:${config.server_port}/`,
   globals: Object.assign({}, config.globals, {
-    '__API_URL__':  JSON.stringify('http://localhost:5000')
+    '__API_URL__':  JSON.stringify('http://localhost:3000')
   })
 });

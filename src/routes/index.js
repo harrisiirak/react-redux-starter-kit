@@ -6,8 +6,12 @@ import Application from 'views/Application';
 import Login from 'views/Login';
 import NotFound from 'views/NotFound';
 
+import { API_REQUEST_RESET } from '../constants/api';
+import { destroySession } from '../actions/session';
+
 export default function configureRoutes (store) {
-  var requireAuth = (nextState, transition, cb) => {
+  let isResetting = false;
+  let requireAuth = (nextState, transition, cb) => {
     let isAuthenticated = store.getState().session.isAuthenticated;
     if (!isAuthenticated) {
       transition('/login');
@@ -17,6 +21,21 @@ export default function configureRoutes (store) {
 
     cb();
   };
+
+  store.subscribe(() => {
+    var state = store.getState();
+
+    // Force logout
+    if (state.api) {
+      if (!isResetting && state.api.requireAuthorization) {
+        isResetting = true;
+        store.dispatch(destroySession('invalid'));
+        store.dispatch({ type: API_REQUEST_RESET });
+      } else if (isResetting && !state.api.requireAuthorization) {
+        isResetting = false;
+      }
+    }
+  });
 
   return (
     <Route path='/' component={CoreLayout}>
