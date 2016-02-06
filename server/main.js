@@ -6,6 +6,7 @@ import webpackConfig from '../build/webpack.config';
 import _debug from 'debug';
 import config from '../config';
 import jwt from 'jsonwebtoken';
+import faker from 'faker';
 
 const debug = _debug('app:server');
 const paths = config.utils_paths;
@@ -73,7 +74,7 @@ app.post('/sessions/create', (req, res) => {
   }
 
   user = users[0];
-  let token = jwt.sign({ id: user.id, username: user.username }, secret, { expiresIn: 60 });
+  let token = jwt.sign({ id: user.id, username: user.username }, secret, { expiresIn: '12h' });
 
   res.status(200).json({
     status: 'ok',
@@ -81,8 +82,21 @@ app.post('/sessions/create', (req, res) => {
   });
 });
 
+app.use((req, res, next) => {
+  console.log(req.headers);
+  next();
+});
+
 app.use('/api', jwtCheck({ secret }), (req, res, next) => {
-  console.log(req.user);
+  let n = 0;
+  let c = 50;
+  let s = [];
+
+  while (n++ < c) {
+    s.push(faker.helpers.userCard());
+  }
+
+  res.status(200).json(s);
 });
 
 app.use((err, req, res, next) => {

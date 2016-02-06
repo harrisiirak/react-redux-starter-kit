@@ -20,7 +20,7 @@ export class Application extends React.Component {
 
     setTimeout(() => {
       this.props.dispatch(fetchAllUsers());
-    }, 5000);
+    }, 1000);
   }
 
   onLogout () {

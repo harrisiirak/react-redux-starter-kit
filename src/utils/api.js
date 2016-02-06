@@ -11,38 +11,62 @@ export function getDefaultHeaders () {
   return {};
 }
 
-export function createRequest (endpoint, method = 'GET', headers = {}, body = null, contextHandlers = {}) {
-  // Set default handlers
-  let handlers = {
+const defaultConfig = {
+  method: 'GET',
+  headers: getDefaultHeaders(),
+  handlers: {
     init: [
-      {
-        type: API_REQUEST_START,
-        payload: (action, state) => {
-          console.log(state);
-          return action;
-        }
-      }
+      { type: API_REQUEST_START }
     ],
 
     success: [
+      { type: API_REQUEST_SUCCESS },
       { type: API_REQUEST_SUCCESS }
     ],
 
     error: [
       { type: API_REQUEST_ERROR }
     ]
-  };
+  }
+};
 
-  console.log(handlers);
+export function createRequest (contextConfig) {
+  let config = Object.assign({}, defaultConfig, contextConfig);
+
+  if (contextConfig.handlers) {
+    Object.keys(defaultConfig.handlers).forEach((type) => {
+      if (!contextConfig.handlers[type]) {
+        config.handlers[type] = defaultConfig.handlers[type];
+      } else {
+        config.handlers[type] = defaultConfig.handlers[type].concat(
+          contextConfig.handlers[type] instanceof Array ? contextConfig.handlers[type] : [ contextConfig.handlers[type] ]
+        );
+      }
+
+      config.handlers[type].reverse();
+    })
+  }
 
   return {
     [CALL_API]: {
-      endpoint: getEndpointForPath(endpoint),
-      method: method,
+      endpoint: getEndpointForPath(config.endpoint),
+      method: config.method,
+      headers: function (state) {
+        let headers = Object.assign({}, getDefaultHeaders(), contextConfig.headers || {});
+
+        // Attach token
+        if (state.api.isValidToken && state.api.token) {
+          headers = Object.assign(headers, {
+            'Authorization': `Bearer ${state.api.token}`
+          });
+        }
+
+        return headers;
+      },
       types: [
-        withSideEffects(...handlers.init),
-        withSideEffects(...handlers.success),
-        withSideEffects(...handlers.error)
+        withSideEffects(...config.handlers.init),
+        withSideEffects(...config.handlers.success),
+        withSideEffects(...config.handlers.error)
       ]
     }
   };

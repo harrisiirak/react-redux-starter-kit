@@ -18,7 +18,7 @@ export default function configureStore ({ initialState = {}, history }) {
     const devTools = window.devToolsExtension
       ? window.devToolsExtension()
       : require('containers/DevTools').default.instrument();
-    middleware = compose(middleware, processSideEffects, devTools);
+    middleware = compose(middleware, devTools, processSideEffects);
   }
 
   // Create final store and subscribe router in debug env ie. for devtools

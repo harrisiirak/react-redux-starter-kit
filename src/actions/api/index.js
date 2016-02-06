@@ -76,7 +76,6 @@ export function resetAPIToken (reason) {
       localStorage.removeItem('token');
     }
 
-    console.log(reason);
     dispatch(routeActions.push('/login?reason=' + (reason || 'user')));
   };
 }
