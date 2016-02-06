@@ -8,7 +8,7 @@ import NotFound from 'views/NotFound';
 
 import Users from 'views/app/Users';
 
-import { API_REQUEST_RESET } from '../constants/api';
+import { resetAPIToken } from '../actions/api';
 import { destroySession } from '../actions/session';
 
 export default function configureRoutes (store) {
@@ -31,8 +31,8 @@ export default function configureRoutes (store) {
     if (state.api) {
       if (!isResetting && state.api.requireAuthorization) {
         isResetting = true;
-        store.dispatch(destroySession('invalid'));
-        store.dispatch({ type: API_REQUEST_RESET });
+        store.dispatch(destroySession(state.api.errorReason));
+        store.dispatch(resetAPIToken());
       } else if (isResetting && !state.api.requireAuthorization) {
         isResetting = false;
       }

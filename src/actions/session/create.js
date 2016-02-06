@@ -1,4 +1,6 @@
 import fetch from 'isomorphic-fetch';
+import { receiveAPIToken } from '../../actions/api';
+
 import {
   SESSION_CREATE_REQUEST, SESSION_CREATE_SUCCESS, SESSION_CREATE_FAILURE, SESSION_DESTROY_SUCCESS
 } from '../../constants/session';
@@ -49,7 +51,10 @@ export function createSession (username, password) {
           dispatch(loginError(user.message));
           return Promise.reject(user);
         } else {
-          localStorage.setItem('token', user.data || user.token);
+          let token = user.data || user.token;
+          localStorage.setItem('token', token);
+
+          dispatch(receiveAPIToken(token));
           dispatch(receiveLogin(user));
         }
       }).catch(() => {

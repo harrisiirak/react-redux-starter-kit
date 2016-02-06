@@ -1,1 +1,1 @@
-export { fetchAll } from './fetchAll';
+export { fetchAllUsers } from './fetchAllUsers';

@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 export default class Content extends React.Component {
+  static propTypes = {
+    children: PropTypes.element
+  };
+
   constructor (props) {
     super(props);
   }
@@ -12,8 +16,8 @@ export default class Content extends React.Component {
         <div className='row'>
           <div className='col-sm-3 col-md-2 sidebar'>
             <ul className='nav nav-sidebar'>
-              <li><Link to="/app" activeClassName="active">Dashboard</Link></li>
-              <li><Link to="/app/users" activeClassName="active">Users</Link></li>
+              <li><Link to='/app' activeClassName='active'>Dashboard</Link></li>
+              <li><Link to='/app/users' activeClassName='active'>Users</Link></li>
             </ul>
             <ul className='nav nav-sidebar'>
               <li><a href=''>Nav item</a></li>
