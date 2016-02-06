@@ -1,7 +1,6 @@
-import { CALL_API } from 'redux-api-middleware';
-import { withSideEffects } from 'redux-action-side-effects';
 import { API_REQUEST_START, API_REQUEST_ERROR } from '../../constants/api';
-
+import { createRequest } from '../../utils/api';
+import { CALL_API } from 'redux-api-middleware';
 export function fetchAllUsers () {
   return {
     [CALL_API]: {

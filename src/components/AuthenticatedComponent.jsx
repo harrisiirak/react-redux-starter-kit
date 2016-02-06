@@ -40,9 +40,8 @@ export function requireAuthentication (Component) {
   }
 
   const mapStateToProps = (state) => ({
-    token: state.session.token || localStorage.getItem('token'),
-    userName: state.session.username,
-    isAuthenticated: state.session.isAuthenticated
+    token: state.api.token,
+    isAuthenticated: state.api.isValidToken
   });
 
   return connect(mapStateToProps)(AuthenticatedComponent);

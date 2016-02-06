@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { requireAuthentication } from '../components/AuthenticatedComponent';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { destroySession } from '../actions/session';
+import { resetAPIToken } from '../actions/api';
 import { fetchAllUsers } from '../actions/user';
 
 import Navigation from './app/Navigation';
@@ -18,15 +18,13 @@ export class Application extends React.Component {
   constructor (props) {
     super(props);
 
-    /*
     setTimeout(() => {
       this.props.dispatch(fetchAllUsers());
     }, 5000);
-    */
   }
 
   onLogout () {
-    this.props.actions.destroySession();
+    this.props.actions.resetAPIToken('user');
   }
 
   render () {
@@ -40,7 +38,7 @@ export class Application extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators({ destroySession }, dispatch)
+  actions: bindActionCreators({ resetAPIToken }, dispatch)
 });
 
 export default requireAuthentication(

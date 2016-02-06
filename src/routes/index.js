@@ -9,12 +9,11 @@ import NotFound from 'views/NotFound';
 import Users from 'views/app/Users';
 
 import { resetAPIToken } from '../actions/api';
-import { destroySession } from '../actions/session';
 
 export default function configureRoutes (store) {
   let isResetting = false;
   let requireAuth = (nextState, transition, cb) => {
-    let isAuthenticated = store.getState().session.isAuthenticated;
+    let isAuthenticated = store.getState().api.isValidToken;
     if (!isAuthenticated) {
       transition('/login');
     } else if (isAuthenticated && !nextState.location.pathname.startsWith('/app')) {
@@ -31,8 +30,7 @@ export default function configureRoutes (store) {
     if (state.api) {
       if (!isResetting && state.api.requireAuthorization) {
         isResetting = true;
-        store.dispatch(destroySession(state.api.errorReason));
-        store.dispatch(resetAPIToken());
+        store.dispatch(resetAPIToken('invalid'));
       } else if (isResetting && !state.api.requireAuthorization) {
         isResetting = false;
       }

@@ -9,7 +9,21 @@ import configureStore from './reducers/configureStore';
 const historyConfig = { basename: __BASENAME__ };
 const history = useRouterHistory(createHistory)(historyConfig);
 
-const initialState = window.__INITIAL_STATE__;
+let initialState = window.__INITIAL_STATE__ || {};
+
+// Override initial state data
+if (typeof localStorage !== 'undefined' && localStorage.getItem('token')) {
+  initialState = Object.assign(initialState, {
+    api: {
+      isValidToken: true,
+      requireAuthorization: false,
+      token: localStorage.getItem('token'),
+      resetReason: '',
+      error: ''
+    }
+  });
+}
+
 const store = configureStore({ initialState, history });
 const routes = configureRoutes(store);
 

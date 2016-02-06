@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { routeActions } from 'react-router-redux';
 import { reduxForm } from 'redux-form';
 import { bindActionCreators } from 'redux';
-import { createSession } from '../actions/session';
+import { createAPIToken } from '../actions/api';
 
 const fields = [ 'username', 'password' ];
 
@@ -15,7 +15,6 @@ export class Login extends React.Component {
     submitting: PropTypes.bool.isRequired,
 
     location: PropTypes.object,
-    isAuthenticating: PropTypes.bool,
     actions: PropTypes.object,
     dispatch: PropTypes.func
   };
@@ -32,9 +31,8 @@ export class Login extends React.Component {
 
   submit (values) {
     return new Promise((resolve, reject) => {
-      return this.props.actions.createSession(values.username, values.password)
+      return this.props.actions.createAPIToken(values.username, values.password)
         .then(() => {
-          resolve();
           this.props.dispatch(
             routeActions.push('/app')
           );
@@ -81,12 +79,11 @@ export class Login extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  isAuthenticating: state.session.isAuthenticating,
-  error: state.session.error
+  error: state.api.error
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators({ createSession }, dispatch)
+  actions: bindActionCreators({ createAPIToken }, dispatch)
 });
 
 export default reduxForm({
