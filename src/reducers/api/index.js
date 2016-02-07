@@ -3,7 +3,9 @@ import {
   API_TOKEN_REQUEST, API_TOKEN_REQUEST_ERROR
 } from '../../constants/api';
 
-const storedToken = typeof localStorage !== 'undefined' && localStorage.getItem('token') ? localStorage.getItem('token') : null;
+import cookie from 'react-cookie';
+
+const storedToken = cookie.load('token') || null;
 const initialState = {
   isValidToken: !!storedToken,
   requireAuthorization: false,

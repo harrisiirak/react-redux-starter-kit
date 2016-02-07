@@ -131,7 +131,6 @@ webpackConfig.module.loaders = [{
 const cssLoader = !config.compiler_css_modules
   ? 'css?sourceMap'
   : [
-    'isomorphic-style-loader',
     'css?modules',
     'sourceMap',
     'importLoaders=1',

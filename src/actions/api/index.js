@@ -1,5 +1,6 @@
 import { routeActions } from 'react-router-redux';
 import fetch from 'isomorphic-fetch';
+import cookie from 'react-cookie';
 
 import { API_TOKEN_INITIALIZE, API_TOKEN_RESET, API_TOKEN_REQUEST, API_TOKEN_REQUEST_ERROR } from '../../constants/api';
 import { getEndpointForPath } from '../../utils/api';
@@ -53,10 +54,7 @@ export function createAPIToken (username, password) {
         } else {
           let token = user.data || user.token;
 
-          if (localStorage) {
-            localStorage.setItem('token', token);
-          }
-
+          cookie.save('token', token);
           dispatch(receiveAPIToken(token));
         }
       }).catch((a) => {
@@ -71,11 +69,7 @@ export function createAPIToken (username, password) {
 export function resetAPIToken (reason) {
   return dispatch => {
     dispatch(requestAPITokenReset(reason));
-
-    if (localStorage) {
-      localStorage.removeItem('token');
-    }
-
+    cookie.remove('token');
     dispatch(routeActions.push('/login?reason=' + (reason || 'user')));
   };
 }
