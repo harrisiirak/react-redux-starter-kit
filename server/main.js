@@ -134,14 +134,17 @@ app.post('/sessions/create', (req, res) => {
 
 app.use('/api', jwtCheck({ secret }), (req, res, next) => {
   let n = 0;
-  let c = 50;
+  let c = 100;
   let s = [];
 
   while (n++ < c) {
     s.push(faker.helpers.userCard());
   }
 
-  res.status(200).json(s);
+  res.status(200).json({
+    status: 'ok',
+    data: s
+  });
 });
 
 app.use((err, req, res, next) => {

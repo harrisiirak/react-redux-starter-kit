@@ -57,7 +57,7 @@ export function createAPIToken (username, password) {
           cookie.save('token', token);
           dispatch(receiveAPIToken(token));
         }
-      }).catch((a) => {
+      }).catch(() => {
         let err = receiveAPITokenError('Invalid response from the server. Cannot create a new session');
         dispatch(err);
 

@@ -9,6 +9,7 @@ const storedToken = cookie.load('token') || null;
 const initialState = {
   isValidToken: !!storedToken,
   requireAuthorization: false,
+  requestInProgress: false,
   token: storedToken,
   resetReason: '', // invalid
   error: ''
@@ -29,10 +30,11 @@ function api (state = initialState, action) {
 
     case API_REQUEST_ERROR:
       if (action.error) {
-        let status = action.payload.status;
+        let status = action.context.status;
         let nextState = Object.assign({}, state, {
+          requestInProgress: false,
           resetReason: 'invalid',
-          error: action.payload.response.data
+          error: action.payload.data
         });
 
         // Handle invalid token or login
@@ -46,6 +48,19 @@ function api (state = initialState, action) {
       break;
 
     case API_REQUEST_START:
+      return Object.assign({}, state, {
+        requestInProgress: true,
+        resetReason: '',
+        error: ''
+      });
+
+    case API_REQUEST_SUCCESS:
+      return Object.assign({}, state, {
+        requestInProgress: false,
+        resetReason: '',
+        error: ''
+      });
+
     case API_TOKEN_REQUEST:
     case API_TOKEN_RESET:
       return initialState;
