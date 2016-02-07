@@ -44,6 +44,7 @@ const config = {
     'react-redux',
     'react-router',
     'react-pager',
+    'react-cookie',
     'redux',
     'redux-logger',
     'redux-actions',

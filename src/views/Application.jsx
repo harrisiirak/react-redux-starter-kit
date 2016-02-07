@@ -18,9 +18,11 @@ export class Application extends React.Component {
   constructor (props) {
     super(props);
 
+    /*
     setTimeout(() => {
       this.props.dispatch(fetchAllUsers());
     }, 1000);
+    */
   }
 
   onLogout () {

@@ -3,7 +3,7 @@ import {
   API_TOKEN_REQUEST, API_TOKEN_REQUEST_ERROR
 } from '../../constants/api';
 
-const storedToken = localStorage && localStorage.getItem('token') ? localStorage.getItem('token') : null;
+const storedToken = typeof localStorage !== 'undefined' && localStorage.getItem('token') ? localStorage.getItem('token') : null;
 const initialState = {
   isValidToken: !!storedToken,
   requireAuthorization: false,

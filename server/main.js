@@ -8,9 +8,59 @@ import config from '../config';
 import jwt from 'jsonwebtoken';
 import faker from 'faker';
 
+//import React from 'react';
+//import ReactDOMServer from 'react-dom/server'
+//import { useRouterHistory } from 'react-router';
+//import { RoutingContext, match } from 'react-router';
+//import { createLocation, createHistory } from 'history';
+//import { Provider } from 'react-redux';
+//import configureRoutes from '../src/routes';
+//import configureStore from '../src/reducers/configureStore';
+
 const debug = _debug('app:server');
 const paths = config.utils_paths;
 const app = new express();
+
+//app.use((req, res) => {
+//  const historyConfig = {};
+//  const initialState = {};
+//
+//  const location = createLocation(req.url);
+//  const history = useRouterHistory(createHistory)(historyConfig);
+//  const store = configureStore({ initialState, history });
+//  const routes = configureRoutes(store);
+//
+//  return;
+//  match({ routes, location }, (err, redirectLocation, renderProps) => {
+//    if (err) {
+//      return res.status(500).end('Internal server error');
+//    }
+//
+//    if (!renderProps) {
+//      return res.status(404).end('Not found');
+//    }
+//
+//    function renderView() {
+//      const InitialView = (
+//        <Provider store={store}>
+//          <RoutingContext {...renderProps} />
+//        </Provider>
+//      );
+//
+//      const componentHTML = ReactDOMServer.renderToString(InitialView);
+//
+//      const initialState = store.getState();
+//      return '';
+//    }
+//
+//    /*
+//     fetchComponentData(store.dispatch, renderProps.components, renderProps.params)
+//     .then(renderView)
+//     .then(html => res.end(html))
+//     .catch(err => res.end(err.message));
+//     */
+//  });
+//});
 
 // ------------------------------------
 // Apply Webpack HMR Middleware
@@ -80,11 +130,6 @@ app.post('/sessions/create', (req, res) => {
     status: 'ok',
     data: token
   });
-});
-
-app.use((req, res, next) => {
-  console.log(req.headers);
-  next();
 });
 
 app.use('/api', jwtCheck({ secret }), (req, res, next) => {
